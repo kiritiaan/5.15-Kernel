@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 # Define URLs for the kernel files
@@ -11,8 +10,15 @@ wget -O linux-headers.deb $HEADER_URL
 wget -O linux-image-unsigned.deb $IMAGE_URL
 wget -O linux-modules.deb $MODULES_URL
 
+# Update package list and install necessary dependencies
+sudo apt-get update
+sudo apt-get install -y dkms build-essential libncurses-dev bison flex libssl-dev libelf-dev
+
 # Install the downloaded packages
 sudo dpkg -i linux-headers.deb linux-image-unsigned.deb linux-modules.deb
+
+# Fix broken dependencies if any
+sudo apt-get install -f
 
 # Update GRUB
 sudo update-grub
